@@ -7,7 +7,7 @@ OUTPUT_NAME='Virtual-1'
 
 set -e
 
-# Install packages
+## Install packages
 echo 'Install packages.'
 sudo apt install -y i3 --no-install-recommends
 sudo apt install -y kitty
@@ -29,21 +29,24 @@ echo 'Generate SSH keys.'
 echo -n 'Insert comment for SSH keys: '; read ssh_comment
 ssh-keygen -t ed25519 -C "$ssh_comment"
 
-mkdir -p ~/.config/nvim/
-mkdir ~/developer
-cd ~/developer
+mkdir -p $HOME/.config/nvim/
+mkdir $HOME/developer
 
-echo -n 'Copy new SSH key to GitHub. Enter DONE when finished.'; 
+cat $HOME/.ssh/id_ed25519.pub
+echo 'Copy new SSH key to GitHub. Enter DONE when finished.';
 echo -n 'Are you DONE? '; read answer
-until (( "$answer" == "DONE" )); do
+until [ "$answer" == "DONE" ]; do
+    echo -n 'Are you DONE? '; read answer
 done
 
-echo -n 'Enter name(not URL) of GitHub dotfiles username and repository like john/dotfiles: '; read repo
-git clone git@github.com:"$repo".git
+git clone git@github.com:marinacompsci/dotfiles.git $HOME/developer
+
+rm -rf $HOME/.bash* $HOME/.tmux* $HOME/.vimrc $HOME/.hunspell_en_US $HOME/.vim $HOME/.config/nvim/init.lua $HOME/.config/kitty/kitty.conf $HOME/.config/i3/config
 
 echo 'Run symlinks creation script.'
-echo -n 'Enter path for .bashenv file: '; read BASHENV_PATH
-"~/developer/dotfiles/bash/setup.sh" "$BASHENV_PATH" 'linux-desktop'
+BASHENV_PATH=$(find -name '.bashenv')
+SYMLINK_SCRIPT="$HOME/developer/dotfiles/scripts/bash/setup.sh"
+"$SYMLINK_SCRIPT" "$BASHENV_PATH" 'linux-desktop'
 
 echo 'Install VM tools to help adjust the resolution.'
 sudo apt install open-vm-tools open-vm-tools-desktop
@@ -56,7 +59,7 @@ xrandr --addmode "$DESKTOP_OUTPUT_NAME" "$RESOLUTION_NAME"
 xrandr --output "$DESKTOP_OUTPUT_NAME" "$RESOLUTION_NAME"
 
 echo 'Install JetBrains Mono'
-sudo cp ~/developer/dotfiles/essentials/JetBrainsMono*/*.ttf /usr/local/share/fonts/
+#sudo cp $HOME/developer/dotfiles/essentials/JetBrainsMono*/*.ttf /usr/local/share/fonts/
 # Update fonts' cache
-fc-cache -f -v
+#fc-cache -f -v
 echo 'Set JetBrainsMono as default font system-wide YOURSELF'
