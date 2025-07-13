@@ -7,8 +7,7 @@ DESKTOP_OUTPUT_NAME='Virtual-1'
 
 set -e
 
-### Install packages
-#echo 'Install packages.'
+echo 'Install packages.'
 sudo apt install -y i3 --no-install-recommends
 sudo apt install -y kitty
 sudo apt install -y git
@@ -60,7 +59,9 @@ NEW_MODELINE=$(echo $CVT_OUTPUT | sed -E 's/.*Modeline\s//')
 NEW_MODE=$(echo $NEW_MODELINE | sed -E 's/"(.*)".*/\1/')
 I3_CONFIG="$HOME/.config/i3/config"
 
-echo "# Setting screen's dimensions and resolution" >> $I3_CONFIG
+echo >> I3_CONFIG
+echo "# Setting screen's dimensions and resolution." >> $I3_CONFIG
+echo "# Set this below the line where the font is set." >> $I3_CONFIG
 echo "exec --no-startup-id xrandr --newmode $NEW_MODELINE" >> $I3_CONFIG
 echo "exec --no-startup-id xrandr --addmode $DESKTOP_OUTPUT_NAME $NEW_MODE" >> $I3_CONFIG
 echo "exec --no-startup-id xrandr --output $DESKTOP_OUTPUT_NAME --mode $NEW_MODE" >> $I3_CONFIG
