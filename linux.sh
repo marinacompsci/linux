@@ -55,17 +55,22 @@ sudo apt install open-vm-tools open-vm-tools-desktop
 
 echo "Calculate and set screen's resolution."
 CVT_OUTPUT=$(cvt $RESOLUTION_W $RESOLUTION_H $RESOLUTION_FREQ)
-NEW_MODELINE=$(echo $CVT_OUTPUT | sed -E 's/.*Modeline\s//')
-NEW_MODE=$(echo $NEW_MODELINE | sed -E 's/"(.*)".*/\1/')
-I3_CONFIG="$HOME/.config/i3/config"
+NEW_MODELINE=$(echo $CVT_OUTPUT | sed -E -e 's/.*Modeline\s//')
+NEW_MODE=$(echo $NEW_MODELINE| sed -E "s/\"(.*)\".*/\1/")
 
-echo >> I3_CONFIG
-echo "# Setting screen's dimensions and resolution." >> $I3_CONFIG
-echo "# Set this below the line where the font is set." >> $I3_CONFIG
-echo "exec --no-startup-id xrandr --newmode $NEW_MODELINE" >> $I3_CONFIG
-echo "exec --no-startup-id xrandr --addmode $DESKTOP_OUTPUT_NAME $NEW_MODE" >> $I3_CONFIG
-echo "exec --no-startup-id xrandr --output $DESKTOP_OUTPUT_NAME --mode $NEW_MODE" >> $I3_CONFIG
+DISPLAY_SCRIPT="$HOME/linux/display.sh"
+cat > $DISPLAY_SCRIPT << EOF
+#!/usr/bin/env bash
 
+xrandr --newmode $NEW_MODELINE 2>&1 | logger -t i3-xrandr
+sleep 2 && xrandr --addmode $DESKTOP_OUTPUT_NAME $NEW_MODE 2>&1 | logger -t i3-xrandr
+sleep 2 && xrandr --output $DESKTOP_OUTPUT_NAME --mode $NEW_MODE 2>&1 | logger -t i3-xrandr
+EOF
+cat >> $HOME/.config/i3/config << EOF
+# Setting screen's dimensions and resolution.
+# Set this below the line where the font is set.
+exec --no-startup-id $DISPLAY_SCRIPT
+EOF
 
 #echo 'Install JetBrains Mono'
 #sudo cp $HOME/developer/dotfiles/essentials/JetBrainsMono*/*.ttf /usr/local/share/fonts/
