@@ -14,9 +14,9 @@ sudo apt install -y git
 sudo apt install -y tmux
 sudo apt install -y neovim
 sudo apt install -y curl
-sudo apt install -y nodejs
-sudo apt install -y npm
-# Add pkgs: zoxide, hunspell and others
+sudo apt install -y zoxide
+sudo apt install -y hunspell
+sudo apt install -y htop
 
 # Vim-plug(plugin manager)
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -29,14 +29,14 @@ echo 'Generate SSH keys.'
 echo -n 'Insert comment for SSH keys: '; read ssh_comment
 ssh-keygen -t ed25519 -C "$ssh_comment"
 
-mkdir -p $HOME/.config/nvim/
+mkdir -p $HOME/.config/nvim
 mkdir $HOME/developer
 
 cat $HOME/.ssh/id_ed25519.pub
-echo 'Copy new SSH key to GitHub. Enter DONE when finished.';
-echo -n 'Are you DONE? '; read answer
-until [ "$answer" == "DONE" ]; do
-    echo -n 'Are you DONE?[DONE/<any>] '; read answer
+echo 'Copy new SSH key to GitHub.'
+echo -n 'Are you done?[y/N] '; read answer
+until [ "$answer" == "y" ]; do
+    echo -n 'Are you done?[y/N] '; read answer
 done
 
 git clone git@github.com:marinacompsci/dotfiles.git $HOME/developer
@@ -53,9 +53,9 @@ SYMLINK_SCRIPT="$HOME/developer/dotfiles/scripts/bash/setup.sh"
 echo 'Install VM tools to help adjust the resolution.'
 sudo apt install open-vm-tools open-vm-tools-desktop
 
-echo "Calculate and set screen's resolution."
+echo "Calculate screen's resolution."
 CVT_OUTPUT=$(cvt $RESOLUTION_W $RESOLUTION_H $RESOLUTION_FREQ)
-NEW_MODELINE=$(echo $CVT_OUTPUT | sed -E -e 's/.*Modeline\s//')
+NEW_MODELINE=$(echo $CVT_OUTPUT | sed -E 's/.*Modeline\s//')
 NEW_MODE=$(echo $NEW_MODELINE| sed -E "s/\"(.*)\".*/\1/")
 
 DISPLAY_SCRIPT="$HOME/linux/display.sh"
@@ -71,9 +71,3 @@ cat >> $HOME/.config/i3/config << EOF
 # Set this below the line where the font is set.
 exec --no-startup-id $DISPLAY_SCRIPT
 EOF
-
-#echo 'Install JetBrains Mono'
-#sudo cp $HOME/developer/dotfiles/essentials/JetBrainsMono*/*.ttf /usr/local/share/fonts/
-# Update fonts' cache
-#fc-cache -f -v
-#echo 'Set JetBrainsMono as default font system-wide YOURSELF'
