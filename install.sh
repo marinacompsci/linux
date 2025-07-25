@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+!/usr/bin/env bash
 
 set -e
 
@@ -21,33 +21,23 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 	       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # Install Node Version Manager, Node(NPM included) and LSP's
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
 echo 'Assert that $PATH contains .nvm/../bin'
 echo $PATH
-read -r -p 'Continue? [Y/n]'; answer
+read -r -p 'Continue? [Y/n]' answer
 if [ "$answer" != 'Y' ]; then
     exit 1
 fi
-#export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-nvm install latest
-npm i -g bash-language-server
-npm i -g pyright
-npm i -g typescript-language-server typescript
-npm i -g vscode-langservers-extracted
-
-
-# Install Go
-curl https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
-rm -rf /usr/local/go && tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
+ Install Go
+curl -LO https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
 echo 'Assert that $PATH contains /usr/local/go/bin'
 echo $PATH
-read -r -p 'Continue? [Y/n]'; answer
+read -r -p 'Continue? [Y/n]' answer
 if [ "$answer" != 'Y' ]; then
     exit 1
 fi
-go install golang.org/x/tools/gopls@latest
 
 echo 'Generate SSH keys.'
 echo -n 'Insert comment for SSH keys: '; read ssh_comment
@@ -68,15 +58,22 @@ if [ "$answer" != 'Y' ]; then
     exit 0
 fi
 
+echo 'Cloning dotfiles repository.'
+echo 'Remember to write "yes" instead of pressing enter for "fingerprint".'
 git clone git@github.com:marinacompsci/dotfiles.git $HOME/developer/dotfiles
 
-rm -rf $HOME/.bash* $HOME/.tmux* $HOME/.vimrc
-rm -rf $HOME/.hunspell_en_US $HOME/.vim $HOME/.config/nvim/init.lua
-rm -rf $HOME/.config/kitty/kitty.conf $HOME/.config/i3/config
+rm -rf $HOME/.bash* 
+rm -rf $HOME/.tmux* 
+rm -rf $HOME/.vimrc
+rm -rf $HOME/.vim 
+rm -f $HOME/.hunspell_en_US 
+rm -f $HOME/.config/nvim/init.lua
+rm -f $HOME/.config/kitty/kitty.conf 
+rm -f $HOME/.config/i3/config
 
 echo 'Run symlinks creation script.'
-BASHENV_PATH=$(find -name '.bashenv')
 SYMLINK_SCRIPT="$HOME/developer/dotfiles/scripts/bash/setup.sh"
+BASHENV_PATH="$HOME/developer/dotfiles/bash/.bashenv"
 "$SYMLINK_SCRIPT" "$BASHENV_PATH" 'linux-desktop'
 
 echo 'Install VM tools to help adjust the resolution.'
