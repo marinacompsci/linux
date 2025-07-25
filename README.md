@@ -1,5 +1,6 @@
 # Download
-`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/install.sh`
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/post-install.sh`
 
 ## TODOS
 1) Add current user to sudo group as root  
@@ -13,12 +14,13 @@
 `sudo vi /etc/apt/sources.list`  
 4) Install curl  
 `sudo apt install curl -y`  
-5) Run installation script  
-5.1) Curl script  
-`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`  
-5.2) Make it executable  
-`chmod u+x linux.sh`  
-5.3) Run it  
-`./linux.sh`  
+5) Run installation scripts  
+5.1) Curl install scripts  
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/install.sh`  
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/post-install.sh`  
+5.2) Make them executable  
+`chmod u+x install.sh post-install.sh`  
+5.3) Run them  
+`./install.sh && ./post-install.sh`  
 6) Setup Firefox's font-size  
 In **about:config** set `layout.css.devPixelsPerPx` to `2.0`  
