@@ -1,6 +1,6 @@
 # Download
-`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/install.sh`
-`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/post-install.sh`
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/install.sh`  
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/post-install.sh`  
 
 ## TODOS
 1) Add current user to sudo group as root  
