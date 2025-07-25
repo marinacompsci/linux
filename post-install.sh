@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+echo 'Run me on a TMUX split window and not i3.'
 echo 'Install NPM packages.'
-nvm install latest
+nvm install node
 npm i -g bash-language-server
 npm i -g pyright
 npm i -g typescript-language-server typescript

@@ -7,7 +7,6 @@ sudo apt install -y i3 --no-install-recommends
 sudo apt install -y kitty
 sudo apt install -y git
 sudo apt install -y tmux
-sudo apt install -y neovim
 sudo apt install -y curl
 sudo apt install -y zoxide
 sudo apt install -y hunspell
@@ -16,9 +15,19 @@ sudo apt install -y htop
 echo 'Set kitty as default terminal.'
 echo 1 | sudo update-alternatives --config x-terminal-emulator
 
+# Create directory for custom builds due to Debian being always a step behind
+mkdir $HOME/developer/pkgs
+
+# Install neovim.
+curl -LO https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-arm64.appimage
+chmod u+x nvim-linux-arm64.appimage
+mv nvim-linux-arm64.appimage $HOME/pkgs
+sudo ln -s $HOME/developer/pkgs/nvim-linux-arm64.appimage /usr/local/bin/nvim
+
 # Vim-plug(vim/nvim plugin manager)
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
 	       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
 
 # Install Node Version Manager, Node(NPM included) and LSP's
 PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash'
@@ -31,6 +40,8 @@ fi
 
  Install Go
 curl -LO https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
+mv go1.24.5.linux-arm64.tar.gz $HOME/developer/pkgs
+
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
 echo 'Assert that $PATH contains /usr/local/go/bin'
 echo $PATH
