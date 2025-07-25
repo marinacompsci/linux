@@ -1,5 +1,5 @@
 # Download
-`curl -O https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`
 
 ## TODOS
 1) Add current user to sudo group as root  
@@ -15,7 +15,7 @@
 `sudo apt install curl -y`  
 5) Run installation script  
 5.1) Curl script  
-`curl -O https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`  
+`curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/linux.sh`  
 5.2) Make it executable  
 `chmod u+x linux.sh`  
 5.3) Run it  
