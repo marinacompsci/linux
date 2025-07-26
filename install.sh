@@ -89,3 +89,6 @@ BASHENV_PATH="$HOME/developer/dotfiles/bash/.bashenv"
 
 echo 'Install VM tools to help adjust the resolution.'
 sudo apt install open-vm-tools open-vm-tools-desktop
+
+echo "Set DNS server to Google\'s"
+sudo echo "nameserver 8.8.8.8" > /etc/resolv.conf
