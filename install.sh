@@ -35,8 +35,8 @@ fi
 # Install Neovim
 curl -LO https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-arm64.appimage
 chmod u+x nvim-linux-arm64.appimage
-mv nvim-linux-arm64.appimage $PKGS_DIR
-sudo ln -s $PKGS_DIR/nvim-linux-arm64.appimage /usr/local/bin/nvim
+mv nvim-linux-arm64.appimage "$PKGS_DIR"
+sudo ln -s ${PKGS_DIR}/nvim-linux-arm64.appimage /usr/local/bin/nvim
 
 # Vim-plug(vim/nvim plugin manager)
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -49,7 +49,7 @@ PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm
 
 echo 'Install Golang, check if the version installed is the latest.'
 curl -LO https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
-mv go1.24.5.linux-arm64.tar.gz $PKGS_DIR
+mv go1.24.5.linux-arm64.tar.gz "$PKGS_DIR"
 
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
 
@@ -85,8 +85,8 @@ if [ "$answer" == 'Y' ]; then
     rm -f $HOME/.config/i3/config
 
     echo 'Run symlinks creation script.'
-    local symlink_script="$DOTFILES_DIR/scripts/bash/setup.sh"
-    local bashenv_path="$DOTFILES_DIR/bash/.bashenv"
+    local symlink_script=${DOTFILES_DIR}/scripts/bash/setup.sh
+    local bashenv_path=${DOTFILES_DIR}/bash/.bashenv
     "$symlink_script" "$bashenv_path" 'linux-desktop'
 fi
 
