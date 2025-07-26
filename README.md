@@ -1,4 +1,4 @@
-# Download
+# Scripts
 `curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/install.sh`  
 `curl -LO https://raw.githubusercontent.com/marinacompsci/linux/refs/heads/main/post-install.sh`  
 
@@ -12,7 +12,7 @@
 `sudo reboot now`  
 3) Remove iso DVD image from debian's sources.list(or else apt install won't work without the image being attached)  
 `sudo vi /etc/apt/sources.list`  
-4) Install curl  
+4) Install cURL  
 `sudo apt install curl -y`  
 5) Run installation scripts  
 5.1) Curl install scripts  
@@ -22,5 +22,5 @@
 `chmod u+x install.sh post-install.sh`  
 5.3) Run them  
 `./install.sh && ./post-install.sh`  
-6) Setup Firefox's font-size  
+6) Set Firefox's CSS devPixel to pixel ratio  
 In **about:config** set `layout.css.devPixelsPerPx` to `2.0`  
