@@ -2,6 +2,10 @@
 
 set -e
 
+PKGS_DIR="$HOME/developer/pkgs"
+DOTFILES_DIR="$HOME/developer/dotfiles"
+
+
 echo 'Install packages with apt.'
 sudo apt install -y i3 --no-install-recommends
 sudo apt install -y kitty
@@ -16,13 +20,23 @@ echo 'Set kitty as default terminal.'
 echo 1 | sudo update-alternatives --config x-terminal-emulator
 
 # Create directory for custom builds due to Debian being always a step behind
-mkdir $HOME/developer/pkgs
+mkdir -p "$PKGS_DIR"
+if ![ -d "$PKGS_DIR" ]; then
+    echo '[ERROR] Directory $HOME/developer/pkgs not created.'
+    exit 1
+fi
 
-# Install neovim.
+mkdir "$DOTFILES_DIR"
+if ![ -d "$DOTFILES_DIR" ]; then
+    echo '[ERROR] Directory $HOME/developer/dotfiles not created.'
+    exit 1
+fi
+
+# Install Neovim
 curl -LO https://github.com/neovim/neovim/releases/download/v0.11.3/nvim-linux-arm64.appimage
 chmod u+x nvim-linux-arm64.appimage
-mv nvim-linux-arm64.appimage $HOME/developer/pkgs
-sudo ln -s $HOME/developer/pkgs/nvim-linux-arm64.appimage /usr/local/bin/nvim
+mv nvim-linux-arm64.appimage $PKGS_DIR
+sudo ln -s $PKGS_DIR/nvim-linux-arm64.appimage /usr/local/bin/nvim
 
 # Vim-plug(vim/nvim plugin manager)
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -35,7 +49,7 @@ PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm
 
 echo 'Install Golang, check if the version installed is the latest.'
 curl -LO https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
-mv go1.24.5.linux-arm64.tar.gz $HOME/developer/pkgs
+mv go1.24.5.linux-arm64.tar.gz $PKGS_DIR
 
 sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
 
@@ -44,7 +58,10 @@ read -r -p 'Insert comment for SSH keys: ' ssh_comment
 ssh-keygen -t ed25519 -C "$ssh_comment"
 
 mkdir -p $HOME/.config/nvim
-mkdir $HOME/developer
+if ![ -d "$HOME/.config/nvim" ]; then
+    echo '[ERROR] $HOME/.config/nvim not created.'
+    exit 1
+fi
 
 cat $HOME/.ssh/id_ed25519.pub
 echo 'Copy new SSH key to GitHub.'
@@ -57,8 +74,7 @@ read -r -p 'Clone dotfiles now? [Y/n]' answer
 if [ "$answer" == 'Y' ]; then
     echo 'Cloning dotfiles repository.'
     echo 'Remember to write "yes" instead of pressing enter for "fingerprint".'
-    git clone git@github.com:marinacompsci/dotfiles.git $HOME/developer/dotfiles
-
+    git clone git@github.com:marinacompsci/dotfiles.git "$DOTFILES_DIR"
     rm -rf $HOME/.bash* 
     rm -rf $HOME/.tmux* 
     rm -rf $HOME/.vimrc
@@ -69,8 +85,8 @@ if [ "$answer" == 'Y' ]; then
     rm -f $HOME/.config/i3/config
 
     echo 'Run symlinks creation script.'
-    local symlink_script="$HOME/developer/dotfiles/scripts/bash/setup.sh"
-    local bashenv_path="$HOME/developer/dotfiles/bash/.bashenv"
+    local symlink_script="$DOTFILES_DIR/scripts/bash/setup.sh"
+    local bashenv_path="$DOTFILES_DIR/bash/.bashenv"
     "$symlink_script" "$bashenv_path" 'linux-desktop'
 fi
 
