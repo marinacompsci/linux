@@ -21,13 +21,13 @@ echo 1 | sudo update-alternatives --config x-terminal-emulator
 
 # Create directory for custom builds due to Debian being always a step behind
 mkdir -p "$PKGS_DIR"
-if ![ -d "$PKGS_DIR" ]; then
+if ! [ -d "$PKGS_DIR" ]; then
     echo '[ERROR] Directory $HOME/developer/pkgs not created.'
     exit 1
 fi
 
 mkdir "$DOTFILES_DIR"
-if ![ -d "$DOTFILES_DIR" ]; then
+if ! [ -d "$DOTFILES_DIR" ]; then
     echo '[ERROR] Directory $HOME/developer/dotfiles not created.'
     exit 1
 fi
@@ -58,7 +58,7 @@ read -r -p 'Insert comment for SSH keys: ' ssh_comment
 ssh-keygen -t ed25519 -C "$ssh_comment"
 
 mkdir -p $HOME/.config/nvim
-if ![ -d "$HOME/.config/nvim" ]; then
+if ! [ -d "$HOME/.config/nvim" ]; then
     echo '[ERROR] $HOME/.config/nvim not created.'
     exit 1
 fi
