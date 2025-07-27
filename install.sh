@@ -15,6 +15,7 @@ sudo apt install -y curl
 sudo apt install -y zoxide
 sudo apt install -y hunspell
 sudo apt install -y htop
+sudo apt install -y sqlite3
 
 echo 'Set kitty as default terminal.'
 echo 1 | sudo update-alternatives --config x-terminal-emulator
