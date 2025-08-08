@@ -52,7 +52,7 @@ echo 'Install Golang, check if the version installed is the latest.'
 curl -LO https://go.dev/dl/go1.24.5.linux-arm64.tar.gz
 mv go1.24.5.linux-arm64.tar.gz "$PKGS_DIR"
 
-sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.24.5.linux-arm64.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$PKGS_DIR/go1.24.5.linux-arm64.tar.gz"
 
 echo 'Generate SSH keys.'
 read -r -p 'Insert comment for SSH keys: ' ssh_comment
@@ -72,7 +72,7 @@ until [ "$answer" == "y" ]; do
 done
 
 read -r -p 'Clone dotfiles now? [Y/n]' answer
-if [ "$answer" == 'Y' ]; then
+if [ "$answer" != 'N' ]; then
     echo 'Cloning dotfiles repository.'
     echo 'Remember to write "yes" instead of pressing enter for "fingerprint".'
     git clone git@github.com:marinacompsci/dotfiles.git "$DOTFILES_DIR"
@@ -86,13 +86,13 @@ if [ "$answer" == 'Y' ]; then
     rm -f $HOME/.config/i3/config
 
     echo 'Run symlinks creation script.'
-    local symlink_script=${DOTFILES_DIR}/scripts/bash/setup.sh
-    local bashenv_path=${DOTFILES_DIR}/bash/.bashenv
+    symlink_script=${DOTFILES_DIR}/scripts/bash/setup.sh
+    bashenv_path=${DOTFILES_DIR}/bash/.bashenv
     "$symlink_script" "$bashenv_path" 'linux-desktop'
 fi
 
 echo 'Install VM tools to help adjust the resolution.'
-sudo apt install open-vm-tools open-vm-tools-desktop
+sudo apt install open-vm-tools open-vm-tools-desktop || true
 
 echo "Set DNS server to Google\'s."
 sudo echo 'nameserver 8.8.8.8' > /etc/resolv.conf
