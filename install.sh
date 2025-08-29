@@ -92,7 +92,11 @@ if [ "$answer" != 'N' ]; then
 fi
 
 echo 'Install VM tools to help adjust the resolution.'
-sudo apt install open-vm-tools open-vm-tools-desktop || true
+sudo apt install open-vm-tools open-vm-tools-desktop mesa-utils || true
+
 
 echo "Set DNS server to Google\'s."
 sudo echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+
+echo "Increase key repetition rate."
+xset r rate 200 30
