@@ -23,4 +23,4 @@
 5.3) Run them  
 `./install.sh && ./post-install.sh`  
 6) Set Firefox's CSS devPixel to pixel ratio  
-In **about:config** set `layout.css.devPixelsPerPx` to `1.7`  
+In **about:config** set `layout.css.devPixelsPerPx` to `1.5`  
