@@ -22,8 +22,10 @@
 `chmod u+x install.sh post-install.sh`  
 5.3) Run them  
 `./install.sh && ./post-install.sh`  
-6) Setup Firefox
-6.1) Set CSS's devPixel to pixel ratio
+6) Setup Firefox  
+6.1) Set CSS's devPixel to pixel ratio  
 In **about:config** set `layout.css.devPixelsPerPx` to `1.7`  
-6.2) Set Graphics WebRender to true(Videos Rendering)
-In **about:config** set `gfx.webrender.all` to `true`
+6.2) Set Graphics WebRender to true(Videos Rendering)  
+In **about:config** set `gfx.webrender.all` to `true`  
+6.3) Allow for CSS customization  
+In **about:config** set `toolkit.legacyUserProfileCustomizations.stylesheets` to `true`
