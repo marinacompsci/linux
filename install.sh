@@ -96,7 +96,9 @@ sudo apt install open-vm-tools open-vm-tools-desktop mesa-utils || true
 
 
 echo "Set DNS server to Google\'s."
-sudo echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+sudo rm /etc/resolv.conf
+sudo touch /etc/resolv.conf
+echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf
 
 echo "Increase key repetition rate."
 xset r rate 200 30
