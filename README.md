@@ -28,4 +28,8 @@ In **about:config** set `layout.css.devPixelsPerPx` to `1.7`
 6.2) Set Graphics WebRender to true(Videos Rendering)  
 In **about:config** set `gfx.webrender.all` to `true`  
 6.3) Allow for CSS customization  
-In **about:config** set `toolkit.legacyUserProfileCustomizations.stylesheets` to `true`
+In **about:config** set `toolkit.legacyUserProfileCustomizations.stylesheets` to `true`  
+6.4) Allow split view  
+In **about:config** set `browser.tabs.splitView.enabled` to `true`  
+6.5) Allow vertical sidebars  
+In **about:config** set `sidebar.verticalTabs` to `true`  
