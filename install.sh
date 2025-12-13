@@ -101,4 +101,4 @@ sudo touch /etc/resolv.conf
 echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf
 
 echo "Increase key repetition rate."
-xset r rate 200 30
+set r rate 200 30
