@@ -8,6 +8,7 @@ DOTFILES_DIR="$HOME/developer/dotfiles"
 
 echo 'Install packages with apt.'
 sudo apt install -y i3 --no-install-recommends
+sudo apt install -y alacritty
 sudo apt install -y kitty
 sudo apt install -y git
 sudo apt install -y tmux
@@ -17,7 +18,7 @@ sudo apt install -y hunspell
 sudo apt install -y htop
 sudo apt install -y sqlite3
 
-echo 'Set kitty as default terminal.'
+echo 'Set alacritty as default terminal.'
 echo 1 | sudo update-alternatives --config x-terminal-emulator
 
 # Create directory for custom builds due to Debian being always a step behind
@@ -76,13 +77,13 @@ if [ "$answer" != 'N' ]; then
     echo 'Cloning dotfiles repository.'
     echo 'Remember to write "yes" instead of pressing enter for "fingerprint".'
     git clone git@github.com:marinacompsci/dotfiles.git "$DOTFILES_DIR"
-    rm -rf $HOME/.bash* 
-    rm -rf $HOME/.tmux* 
+    rm -rf $HOME/.bash*
+    rm -rf $HOME/.tmux*
     rm -rf $HOME/.vimrc
-    rm -rf $HOME/.vim 
-    rm -f $HOME/.hunspell_en_US 
+    rm -rf $HOME/.vim
+    rm -f $HOME/.hunspell_en_US
     rm -f $HOME/.config/nvim/init.lua
-    rm -f $HOME/.config/kitty/kitty.conf 
+    rm -f $HOME/.config/kitty/kitty.conf
     rm -f $HOME/.config/i3/config
 
     echo 'Run symlinks creation script.'
@@ -100,5 +101,5 @@ sudo rm /etc/resolv.conf
 sudo touch /etc/resolv.conf
 echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf
 
-echo "Increase key repetition rate."
+echo 'Increase key repetition rate.'
 set r rate 200 30
